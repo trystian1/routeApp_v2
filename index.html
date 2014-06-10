@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Route App </title>
+   <meta name="viewport" content="width=device-width">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+
+
+   <script src="http://maps.googleapis.com/maps/api/js?sensor=true" type="text/javascript"></script>
+  
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href= "https://google-developers.appspot.com/maps/documentation/javascript/examples/default.css"/>
+  <link rel="stylesheet" href="css/map.css"/>
+
+
+
+ 
+  <!--[if lt IE 8]>
+  <![endif]-->
+</head>
+<body>
+<section id="header">
+
+ <div id="button_aalsmeer">
+    <p>Naar Aalsmeer </p>
+
+  </div>
+  <h1>Horeca Aalsmeer</h1>
+
+  <div id="menu">
+    <p class="show_menu"> Ik zoek.... </p> 
+
+    <div class="categorie closed" id="categorie">
+      <div class="selectie_button bar" value="bar">bar</div>
+      <div class="selectie_button restaurant" value="restaurant">restaurant</div>
+      <div class="selectie_button club" value="club">club</div>
+      <div class="selectie_button alles" value="alles">alles</div>
+      </div>  
+  </div> 
+</section>
+
+
+
+<div id="map-canvas">
+</div>
+
+<section id="info">
+ <div id="route_knop"><span></span></div>
+  <div class="close" id="close">X </div>
+ <h2 id="name"></h2>
+  <h3 id="horecatype"> </h3>
+  <p id ="description"> </p>
+
+
+  </section>
+
+<script src="js/app/controller.js"> </script>
+<script src="js/app/model.js"> </script>
+<script src="js/app/view.js"> </script> 
+
+
+
+
+</body>
+</html>
