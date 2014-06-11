@@ -7,8 +7,8 @@ var routeApp = routeApp || {};
 routeApp.initializeApp = {
 
   init: function(){
-     routeApp.initializeApp.createMap();
-     routeApp.initializeApp.getPosition();
+     this.createMap();
+     this.getPosition();
   },
   
 //Maak de map aan voor de gebruiker
@@ -58,7 +58,7 @@ routeApp.initializeApp = {
 routeApp.setMarkers = {
 
       init : function (){
-        routeApp.setMarkers.generateMarkers(routeApp.map, routeApp.horeca);
+        this.generateMarkers(routeApp.map, routeApp.horeca);
         routeApp.clickOptions.init();
       },
 

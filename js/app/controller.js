@@ -34,10 +34,10 @@ routeApp.clickOptions = {
     
     init : function(){
         
-        routeApp.clickOptions.closeClick();
-        routeApp.clickOptions.createButtons();
-        routeApp.clickOptions.toAalsmeer();
-        routeApp.clickOptions.closeMenu();
+        this.closeClick();
+        this.createButtons();
+        this.toAalsmeer();
+        this.closeMenu();
       
     },
     
