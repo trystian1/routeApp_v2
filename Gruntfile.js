@@ -14,13 +14,13 @@ module.exports = function(grunt) {
 
 
 
- 		   sass: {                              // Task
-   			 dist: {                            // Target
-    		  options: {                       // Target options
+ 		   sass: {                              
+   			 dist: {                            
+    		  options: {                       
         		style: 'compressed'
       		},
-     		 files: {                         // Dictionary of files
-         		'css/build/main.css': 'css/scss/main.scss'     // 'destination': 'source'
+     		 files: {                         
+         		'css/build/main.css': 'css/scss/main.scss'     
         
      			 }
    			 	}

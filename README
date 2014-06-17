@@ -1,9 +1,40 @@
-#h1 grunt task manager
+//grunt task manager
 
-#h1 Sass
+Als eerst heb ik grunt geinstalleerd. Grunt heeft een javascript file waarin de modules worden ingeladen. Voor deze applicatie heb ik gekozen voor twee modules. Uglify en Sass
 
-#h1 User input
+Uglify: Ugilify compressed de javascript bestanden tot een groot bestand. Ugilify zorgt ervoor dat al het commentaar weggehaald wordt. Zodat er een kleinere file ontstaat.
 
-#h1 localStorage
+   uglify: {
+		    my_target: {
+		      files: {
+		        'js/build/output.min.js': 'js/app/*.js'
+		      }
+		    }
+		  },
+          
 
-#h1 places api
+ 	
+
+Sass: Een andere module is sass, dit is een uitbreiding op css. Het zorgt voor extra functionaliteiten in de taal css
+
+	   sass: {                              
+   			 dist: {                            
+    		  options: {                       
+        		style: 'compressed'
+      		},
+     		 files: {                         
+         		'css/build/main.css': 'css/scss/main.scss'     
+        
+     			 }
+   			 	}
+  		}
+
+//Sass
+
+Voor dit project is gebruik gemaakt van sass. In de main.scss file worden de andere bestanden via een import
+
+//Plaats toevoegen
+
+//localStorage
+
+//places api
