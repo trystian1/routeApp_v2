@@ -1,6 +1,0 @@
-var routeApp = routeApp || {};
-
-(function () {
-
-
-})();
