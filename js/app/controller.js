@@ -195,7 +195,7 @@ routeApp.clickOptions = {
 
 
     },
-    //Krijg de html van de knop via clickedItem, en filter de markers op basis van de hmtl
+    //HTML filter van de selectbox rechtsboven in het scherm, werkt op alle markers
 
     filterMarkers : function(){
     if(routeApp.geolocate){

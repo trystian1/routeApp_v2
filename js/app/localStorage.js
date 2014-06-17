@@ -1,7 +1,7 @@
 var routeApp = routeApp || {};
 
 (function () {
-
+//Sla items op in localStorage
 routeApp.storageItems = {
     init: function(){
     
@@ -21,8 +21,6 @@ routeApp.storageItems = {
     saveMarkers : function(){
         
         localStorage.setItem('ownMarkers', JSON.stringify(routeApp.ownMarkers));
-       // console.log('OWNMARKERS222222', JSON.parse(localStorage.getItem('ownMarkers')));
-
     },
     getMarkers : function(){
         
@@ -31,8 +29,6 @@ routeApp.storageItems = {
         routeApp.ownMarkers = JSON.parse(localStorage.getItem('ownMarkers'));
         
     }
-    
-
 };
     
 })();

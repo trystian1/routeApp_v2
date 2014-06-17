@@ -64,7 +64,10 @@ routeApp.initializeApp = {
 
 };  
 
-//Maak de markers aan en roep de opties om er op te klikken aan
+//Maak de markers aan en roep de opties om er op te klikken aan, 
+//SetMarkers voor de markers uit het model
+//
+    
 routeApp.setMarkers = {
 
       init : function (){
@@ -133,16 +136,13 @@ routeApp.setMarkers = {
             
 
             routeApp.markers_array.push(routeApp.ownMarker);
-           // console.log('ownMaerk', routeApp.ownMarker);
+           
             routeApp.storageObject = {
                 position : routeApp.storageMarker.position,
                 description : routeApp.storageMarker.description,
                 horecaType : routeApp.storageMarker.horecaType
             }
-            //console.log("storageObjec", routeApp.storageObject);
-            
             routeApp.ownMarkers.push(routeApp.storageObject);
-            //console.log("OWNMARKERSFDMSFAMD", routeApp.ownMarkers);
             routeApp.storageItems.saveMarkers();
 
             

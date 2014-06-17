@@ -30,25 +30,27 @@ var routeApp = routeApp || {};
         callback : function(results, status){
         
         if (status == google.maps.places.PlacesServiceStatus.OK) {
-        for (var i = 0; i < results.length; i++) {
+            for (var i = 0; i < results.length; i++) {
          
-            routeApp.places.createMarkers(results[i]);
+                routeApp.places.createMarkers(results[i]);
+            
             }
       
-            console.log("niet ok");   
+            
         }
             
         }, 
         
         createMarkers : function(place){
-            //console.log(results[i]);
+            
             routeApp.placeLocation = place.geometry.location;
             routeApp.nearbyMarker = new google.maps.Marker({
                 map : routeApp.map,
                 position : routeApp.placeLocation,
                 name : place.name
                
-            });
+        });
+        
             routeApp.infowindow = new google.maps.InfoWindow({
                content : routeApp.nearbyMarker.name
             
@@ -62,7 +64,7 @@ var routeApp = routeApp || {};
         },
         clearMarker : function(){
             for(var i = 0; i < routeApp.markersNearby.length; i++){
-                console.log("MARKERSNEARBY", routeApp.markersNearby[i]);
+                
                  routeApp.markersNearby[i].setMap(null);
             }
         }
