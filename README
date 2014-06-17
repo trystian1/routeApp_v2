@@ -4,6 +4,8 @@ Als eerst heb ik grunt geinstalleerd. Grunt heeft een javascript file waarin de 
 
 Uglify: Ugilify compressed de javascript bestanden tot een groot bestand. Ugilify zorgt ervoor dat al het commentaar weggehaald wordt. Zodat er een kleinere file ontstaat.
 
+hieronder is te zien hoe de files gemaakt worden:
+
    uglify: {
 		    my_target: {
 		      files: {
@@ -16,6 +18,8 @@ Uglify: Ugilify compressed de javascript bestanden tot een groot bestand. Ugilif
  	
 
 Sass: Een andere module is sass, dit is een uitbreiding op css. Het zorgt voor extra functionaliteiten in de taal css
+
+hieronder is te zien hoe de files gemaakt worden:
 
 	   sass: {                              
    			 dist: {                            
@@ -31,9 +35,14 @@ Sass: Een andere module is sass, dit is een uitbreiding op css. Het zorgt voor e
 
 //Sass
 
-Voor dit project is gebruik gemaakt van sass. In de main.scss file worden de andere bestanden via een import
+Voor dit project is gebruik gemaakt van sass. In de main.scss file worden de andere bestanden via een import aangeroepen. Een van de vele functies van sass
+
+@import "mixins";
+@import "buttons";
 
 //Plaats toevoegen
+
+Om de applicatie voor de gebruiker interactief te maken kan de gebruiker zelf markers op de map zetten. 
 
 //localStorage
 

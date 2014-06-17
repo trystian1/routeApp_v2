@@ -114,16 +114,18 @@ routeApp.clickOptions = {
     nearbyMarkerClick : function(){
        google.maps.event.addListener(routeApp.nearbyMarker, 'click', function() {
             document.getElementById('info').style.display='block';
-           
-           document.getElementById('description').innerHTML =  this.name;
-           
-       });
-            routeApp.endMarker = routeApp.storageMarker.position;
+            document.getElementById('description').innerHTML =  this.name;
+            document.getElementById('route_knop').innerHTML = "route";
+          
+            routeApp.endMarker = this.position;
         //Roep de functie aan om de route naar de marker te krijgen
             routeApp.routeButton = document.getElementById('route_knop');
             routeApp.routeButton.addEventListener("click", function(e){
             routeApp.routeToMarker.calcRouteToMarker();
-        },false);
+            },false);
+           
+       });
+         
         
     },
     mapClick : function(){

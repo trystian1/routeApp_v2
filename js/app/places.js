@@ -49,16 +49,18 @@ var routeApp = routeApp || {};
                 position : routeApp.placeLocation,
                 name : place.name
                
-        });
-        
+            });
+            routeApp.clickOptions.nearbyMarkerClick();
+            console.log("aaaa", routeApp.nearbyMarker.position);
             routeApp.infowindow = new google.maps.InfoWindow({
                content : routeApp.nearbyMarker.name
             
             });
+             
             routeApp.infowindow.open(routeApp.nearbyMarker.get('map'), routeApp.nearbyMarker);
             
             routeApp.markers_array.push(routeApp.nearbyMarker);
-            routeApp.clickOptions.nearbyMarkerClick(); 
+            
             routeApp.markersNearby.push(routeApp.nearbyMarker);
            
         },
