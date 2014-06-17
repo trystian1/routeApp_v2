@@ -9,11 +9,10 @@ routeApp.routeToMarker = {
       if(!routeApp.geolocate){
         alert("Geef toestemming om huidige locatie te gebruiken");
       }else{
-      //console.log("endMarkerZZZZ", routeApp.endMarker);
+     
       routeApp.start = routeApp.geolocate;
       routeApp.end = routeApp.endMarker;
-      //routeApp.end = routeApp.endMarker;
-      //routeApp.end = this;
+     
       routeApp.request = {
               origin: routeApp.start,
               destination: routeApp.end,
@@ -47,23 +46,9 @@ routeApp.clickOptions = {
     
 //Hier worden de knoppen gemaakt om door de markers te filteren
     createButtons : function(){
-    routeApp.typeSelector =  document.getElementById('gmap_type');   
-   // routeApp.type = document.getElementById('gmap_type').value;
-   // routeApp.typeSelector
-
     
-    routeApp.select = document.getElementsByClassName('selectie_button')
-    for (var i=0;i<routeApp.select.length;i++){
-        //addEvent(routeApp.select[i], 'click', routeApp.clickOptions.filterMarkers);
-       // console.log('aaa', routeApp.select[i]);
-        routeApp.select[i].addEventListener("click", function(e){
-          routeApp.clickedItem = e.target.innerHTML;
-            routeApp.clickOptions.filterMarkers();
-            console.log(e.target.innerHTML);
-             
-             console.log();
-        },false);
-    }
+    routeApp.typeSelector =  document.getElementById('gmap_type');   
+ 
     routeApp.createMarker = false;
         
     routeApp.createMarkerButton = document.getElementById('toevoegen_button');
@@ -92,7 +77,7 @@ routeApp.clickOptions = {
         routeApp.endMarker = routeApp.marker.position;
         //Roep de functie aan om de route naar de marker te krijgen
         routeApp.routeButton = document.getElementById('route_knop');
-        //routeApp.endMarker = routeApp.marker.position;
+
         routeApp.routeButton.addEventListener("click", function(e){
           
           
