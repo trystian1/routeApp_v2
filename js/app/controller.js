@@ -1,17 +1,18 @@
 var routeApp = routeApp || {};
 
-
-(function() {
+(function () {
 
 routeApp.routeToMarker = {
 //neem de route van de gebruiker naar de marker
   calcRouteToMarker : function() {
-      console.log(routeApp.geolocate);
+      //console.log(routeApp.geolocate);
       if(!routeApp.geolocate){
         alert("Geef toestemming om huidige locatie te gebruiken");
       }else{
+     
       routeApp.start = routeApp.geolocate;
-      routeApp.end = routeApp.marker.position;
+      routeApp.end = routeApp.endMarker;
+     
       routeApp.request = {
               origin: routeApp.start,
               destination: routeApp.end,
@@ -38,25 +39,28 @@ routeApp.clickOptions = {
         this.createButtons();
         this.toAalsmeer();
         this.closeMenu();
+        this.mapClick();
+        
       
     },
     
 //Hier worden de knoppen gemaakt om door de markers te filteren
     createButtons : function(){
     
-    
-    routeApp.select = document.getElementsByClassName('selectie_button')
-     for (var i=0;i<routeApp.select.length;i++){
-        //addEvent(routeApp.select[i], 'click', routeApp.clickOptions.filterMarkers);
-       // console.log('aaa', routeApp.select[i]);
-        routeApp.select[i].addEventListener("click", function(e){
-          routeApp.clickedItem = e.target.innerHTML;
-            routeApp.clickOptions.filterMarkers();
-            console.log(e.target.innerHTML);
-             
-             console.log();
-        },false);
-    }
+    routeApp.typeSelector =  document.getElementById('gmap_type');   
+ 
+    routeApp.createMarker = false;
+        
+    routeApp.createMarkerButton = document.getElementById('toevoegen_button');
+    routeApp.createMarkerButton.addEventListener("click", function(){
+        if(routeApp.createMarker){
+            routeApp.createMarker = false;
+            routeApp.createMarkerButton.style.backgroundColor='#2c3e50';
+        }else{
+          routeApp.createMarker = true; 
+            routeApp.createMarkerButton.style.backgroundColor='#e74c3c';
+        }
+    },false);
    },
 
    //Klik op een marker op het scherm
@@ -70,10 +74,13 @@ routeApp.clickOptions = {
         document.getElementById('description').innerHTML =  this.description;
         document.getElementById('route_knop').innerHTML = "route";
         
-
+        routeApp.endMarker = routeApp.marker.position;
         //Roep de functie aan om de route naar de marker te krijgen
         routeApp.routeButton = document.getElementById('route_knop');
+
         routeApp.routeButton.addEventListener("click", function(e){
+          
+          
           routeApp.routeToMarker.calcRouteToMarker();
           },false);
 
@@ -83,6 +90,58 @@ routeApp.clickOptions = {
 
 
 
+    },
+    ownMarkerClick : function(){
+        google.maps.event.addListener(routeApp.storageMarker, 'click', function() {
+     
+        document.getElementById('info').style.display='block';
+        //document.getElementById('name').innerHTML = this.title;
+        document.getElementById('horecatype').innerHTML =  this.horecaType;
+        document.getElementById('description').innerHTML =  this.description;
+        document.getElementById('route_knop').innerHTML = "route";
+        
+         routeApp.endMarker = routeApp.storageMarker.position;
+        //Roep de functie aan om de route naar de marker te krijgen
+        routeApp.routeButton = document.getElementById('route_knop');
+        routeApp.routeButton.addEventListener("click", function(e){
+          routeApp.routeToMarker.calcRouteToMarker();
+          },false);
+
+        
+
+      });
+    },
+    nearbyMarkerClick : function(){
+       google.maps.event.addListener(routeApp.nearbyMarker, 'click', function() {
+            document.getElementById('info').style.display='block';
+            document.getElementById('description').innerHTML =  this.name;
+            document.getElementById('route_knop').innerHTML = "route";
+          
+            routeApp.endMarker = this.position;
+        //Roep de functie aan om de route naar de marker te krijgen
+            routeApp.routeButton = document.getElementById('route_knop');
+            routeApp.routeButton.addEventListener("click", function(e){
+            routeApp.routeToMarker.calcRouteToMarker();
+            },false);
+           
+       });
+         
+        
+    },
+    mapClick : function(){
+        google.maps.event.addListener(routeApp.map, "click", function(event){                            
+            routeApp.ownDescription = document.getElementById("input_description").value;
+            routeApp.selects = document.getElementById("soort_plaats");
+            routeApp.selectedValue = routeApp.selects.options[routeApp.selects.selectedIndex].value;
+            
+            if(routeApp.createMarker){
+                
+                routeApp.setMarkers.placeMarker(event.latLng);
+            }
+        
+        
+        });
+          
     },
     //Sluit het informatie block
     closeClick : function(){
@@ -116,25 +175,30 @@ routeApp.clickOptions = {
     routeApp.aalsmeerButton = document.getElementById('button_aalsmeer');   
 
     routeApp.aalsmeerButton.addEventListener("click",function(e){
-        var center_aalsmeer = new google.maps.LatLng(52.268341,4.751108);
         
-         routeApp.map.panTo(center_aalsmeer);
+        routeApp.map.panTo(routeApp.center_aalsmeer);
 
        });
 
 
     },
-    //Krijg de html van de knop via clickedItem, en filter de markers op basis van de hmtl
+    //HTML filter van de selectbox rechtsboven in het scherm, werkt op alle markers
 
     filterMarkers : function(){
-
+    if(routeApp.geolocate){
+     
+        routeApp.places.requestPlaces();
+        
+    }
       for (var i = 0; i < routeApp.markers_array.length; i++){
-      
-        if(routeApp.markers_array[i].horecaType != routeApp.clickedItem){
+          
+        routeApp.type = routeApp.typeSelector.value;
+        
+        if(routeApp.markers_array[i].horecaType != routeApp.type){
             routeApp.markers_array[i].setMap(null);
         }else{
           routeApp.markers_array[i].setMap(routeApp.map);
-        }if(routeApp.clickedItem == "alles"){
+        }if(routeApp.type == "alles"){
             routeApp.markers_array[i].setMap(routeApp.map);
         }
 
@@ -142,6 +206,7 @@ routeApp.clickOptions = {
 
     },
     
-};
     
+    
+};
 })();

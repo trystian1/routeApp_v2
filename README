@@ -1,0 +1,261 @@
+//grunt task manager
+
+Als eerst heb ik grunt geinstalleerd. Grunt heeft een javascript file waarin de modules worden ingeladen. Voor deze applicatie heb ik gekozen voor twee modules. Uglify en Sass
+
+Uglify: Ugilify compressed de javascript bestanden tot een groot bestand. Ugilify zorgt ervoor dat al het commentaar weggehaald wordt. Zodat er een kleinere file ontstaat.
+
+hieronder is te zien hoe de files gemaakt worden:
+
+   uglify: {
+		    my_target: {
+		      files: {
+		        'js/build/output.min.js': 'js/app/*.js'
+		      }
+		    }
+		  },
+          
+
+ 	
+
+Sass: Een andere module is sass, dit is een uitbreiding op css. Het zorgt voor extra functionaliteiten in de taal css
+
+hieronder is te zien hoe de files gemaakt worden:
+
+	   sass: {                              
+   			 dist: {                            
+    		  options: {                       
+        		style: 'compressed'
+      		},
+     		 files: {                         
+         		'css/build/main.css': 'css/scss/main.scss'     
+        
+     			 }
+   			 	}
+  		}
+
+//Sass
+
+Voor dit project is gebruik gemaakt van sass. In de main.scss file worden de andere bestanden via een import aangeroepen. Een van de vele functies van sass
+
+@import "mixins";
+@import "buttons";
+
+//Plaats toevoegen
+
+Om de applicatie voor de gebruiker interactief te maken kan de gebruiker zelf markers op de map zetten. Dit doet de gebruiker door op de knop plaats toevoegen te drukken. En hierna kan de gebruiker een titel en soort van de marker invullen.
+Daarna kan deze op de map geplaatst worden door ergens op de map te klikken. 
+
+In de functie createButtons() in controller.js wordt de knop aangemaakt. 
+
+Als de knop is ingedrukt is de waarde van createMarker true.
+In de functie mapClick() worden de kliks op de map geregistreerd, als de waarde van createMarker true is zal de functie mapClick() de volgende functie aanroepen:
+
+ mapClick : function(){
+        google.maps.event.addListener(routeApp.map, "click", function(event){                            
+            routeApp.ownDescription = document.getElementById("input_description").value;
+            routeApp.selects = document.getElementById("soort_plaats");
+            routeApp.selectedValue = routeApp.selects.options[routeApp.selects.selectedIndex].value;
+            
+            if(routeApp.createMarker){
+                
+                routeApp.setMarkers.placeMarker(event.latLng);
+            }
+        
+        
+        });
+          
+    },
+    
+De description en soort worden geregistreerd. De functie routeApp.setMarkers.placeMarkers staat in de view.js
+
+placeMarker : function(location) {
+        
+            routeApp.storageMarker = new google.maps.Marker({
+                position: location,
+                map: routeApp.map,
+                description : routeApp.ownDescription,
+                horecaType : routeApp.selectedValue,
+                draggable : true
+                
+            });
+            routeApp.clickOptions.ownMarkerClick(); 
+            routeApp.infowindow = new google.maps.InfoWindow({
+                content : routeApp.ownDescription
+            
+            });
+            routeApp.infowindow.open(routeApp.storageMarker.get('map'), routeApp.storageMarker);
+            
+
+            routeApp.markers_array.push(routeApp.ownMarker);
+           
+
+
+            
+},
+
+In de functie placeMarker word een marker geplaatst, genaamd storageMarker (deze wordt uiteindelijk opgeslagen in de localStorage). 
+In de marker worden ook de ownMarkerClick functie aangeroepen zodat de gebruiker de route van zijn eigen locatie naar de marker kan krijgen.
+Ook wordt er een infoWindow geplaatst boven de marker waar de naam in staat. Ook wordt de marker gepushed in de markers_array zodat er gefilterd kan worden.
+
+//localStorage
+
+Omdat de markers van de gebruikers bij volgend bezoek ook op de map geplaatst moet worden, slaan we ze op in de local storage. Hiervoor maken we voor de markers een object aan.
+De volledige markers_array waarin alle markers opgeslagen zijn kan niet worden omgezet in een localStorage object, omdat hier veel informatie inzit die niet nodig is en een javascript error geeft.
+(onderdeel van de placeMarker functie)
+
+            routeApp.storageObject = {
+                position : routeApp.storageMarker.position,
+                description : routeApp.storageMarker.description,
+                horecaType : routeApp.storageMarker.horecaType
+            }
+            routeApp.ownMarkers.push(routeApp.storageObject);
+            routeApp.storageItems.saveMarkers();
+         
+Het object wordt in een array gepushed genaamd ownMarkers en daarna wordt de functie saveMarkers() aangeroepen, deze staat in de localStorage.js
+
+ saveMarkers : function(){
+        
+        localStorage.setItem('ownMarkers', JSON.stringify(routeApp.ownMarkers));
+  
+ },
+ 
+De array met objecten wordt omgezet in een JSON string, anders returned hij [object, object] en opgeslagen in de localStorage.
+Ook de informatie in model.js wordt in de localStorage opgeslagen
+
+   			saveStorage : function(){
+        
+        		localStorage.setItem('horeca', JSON.stringify(routeApp.horeca));
+
+		 },
+
+In de generateMarkers functie in de view.js file worden de markers op de map geplaatst, hier kijkt de applicatie eerst of de informatie in de localStorage is opgeslagen daarna gaat hij deze informatie gebruiken.
+
+
+  		if (localStorage.getItem("horeca") !== null) {
+                routeApp.storageItems.getStorage();
+          }
+         routeApp.ownMarkers = [];   
+         
+          if (localStorage.getItem("ownMarkers") !== null) {
+             
+             routeApp.storageItems.getMarkers();
+             routeApp.setMarkers.storageMarkers();
+            
+         }
+         
+Hier roept hij functies aan uit de localStorage.js, hier wordt de informatie uit de local storage gehaald en in een variabele geplaatst.
+
+getStorage : function(){
+         routeApp.horeca = JSON.parse(localStorage.getItem('horeca'));
+        
+},
+ getMarkers : function(){
+        routeApp.ownMarkers = JSON.parse(localStorage.getItem('ownMarkers'));
+        
+}
+
+De variabele routeApp.ownMarkers bevat nu de markers die de gebruiker eerder zelf op de map geplaatst heeft. Deze moeten nog wel getekend worden op de map,
+In generateMarkers keek de applicatie of de desbetreffende informatie aanwezig was. Was dit het geval dan riep hij ook nog de functie routeApp.setMarkers.storageMarkers() aan.
+
+StorageMarkers : function(){
+            
+            for (var i = 0; i <= routeApp.ownMarkers.length - 1; i++){
+             routeApp.localMarkers = routeApp.ownMarkers[i]
+            
+                
+            routeApp.storageLatLng = new google.maps.LatLng(routeApp.localMarkers.position.k, routeApp.localMarkers.position.A); 
+            
+            routeApp.storageMarker = new google.maps.Marker({
+                    position: routeApp.storageLatLng,
+                    map: routeApp.map,
+                    description : routeApp.localMarkers.description,
+                    horecaType : routeApp.localMarkers.horecaType,
+                    draggable : true
+                });
+               routeApp.clickOptions.ownMarkerClick(); 
+               routeApp.markers_array.push(routeApp.storageMarker);
+               
+               routeApp.infowindow = new google.maps.InfoWindow({
+                    content : routeApp.storageMarker.description
+            
+                });
+                routeApp.infowindow.open(routeApp.storageMarker.get('map'), routeApp.storageMarker);
+            
+            
+}
+
+Hier loopt de functie door de array met markers en plaats deze op de map, en voegt de clickFuncties toe om de route naar de marker te krijgen.
+
+
+
+
+//places api
+
+Omdat de gebruiker meer informatie over de omgeving wilt dan alleen de vooraf ingevoerde markers en de markers die zelf plaatst is er gebruik gemaakt van de google places api.
+Dit wordt volledig geregeld in de places.js file
+
+requestPlaces : function(){
+            
+            routeApp.places.clearMarker();
+            
+            routeApp.requestedLocation = routeApp.geolocate;
+            
+            routeApp.type = document.getElementById('gmap_type').value;
+            console.log(routeApp.type);
+            routeApp.request = {    
+                location : routeApp.requestedLocation,
+                radius : 3000,
+                types : [routeApp.type]
+            }
+            routeApp.service = new google.maps.places.PlacesService(routeApp.map);  
+            routeApp.service.nearbySearch(routeApp.request, routeApp.places.callback);
+            
+            
+            
+},
+
+In de routeApp.request wordt de informatie doorgegeven die de applicatie nodig heeft om de request naar de API te sturen. De applicatie kijkt in een straal van 3000 meter om een bepaald punt heen
+welke locaties er beschikbaar zijn. Dit punt is hier aan gegeven door routeApp.geolocate, de locatie van de gebruiker zelf. De functie requestPlaces() wordt daarom pas aangeroepen op het moment dat de
+gebruiker toestemming gegeven heeft zijn/haar locatie te gebruiken. De type plaatst wordt gedefineerd door een selectbutton in het scherm. Als deze wordt veranderd doet de applicatie opnieuw een request naar
+de Api alleen dan met de nieuwe type. Omdat de oude Markers dan weg moeten wordt de functie clearMarker() aangeroepen, in deze functie zet hij alle markers die dichtbij zijn uit. Hierna plaatst de applicatie de nieuwe
+markers met de nieuwe type.
+
+callback : function(results, status){
+        
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+            for (var i = 0; i < results.length; i++) {
+         
+                routeApp.places.createMarkers(results[i]);
+            
+            }
+      
+            
+        }
+            
+}, 
+
+Hier krijgt de applicatie de resultaten van de api, en maakt er markers van.
+
+ createMarkers : function(place){
+            
+            routeApp.placeLocation = place.geometry.location;
+            routeApp.nearbyMarker = new google.maps.Marker({
+                map : routeApp.map,
+                position : routeApp.placeLocation,
+                name : place.name
+               
+            });
+            routeApp.clickOptions.nearbyMarkerClick();
+            console.log("aaaa", routeApp.nearbyMarker.position);
+            routeApp.infowindow = new google.maps.InfoWindow({
+               content : routeApp.nearbyMarker.name
+            
+            });
+             
+            routeApp.infowindow.open(routeApp.nearbyMarker.get('map'), routeApp.nearbyMarker);
+            
+            routeApp.markers_array.push(routeApp.nearbyMarker);
+            
+            routeApp.markersNearby.push(routeApp.nearbyMarker);
+           
+},

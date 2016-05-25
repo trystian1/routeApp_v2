@@ -7,12 +7,14 @@
 
 
 
-   <script src="http://maps.googleapis.com/maps/api/js?sensor=true" type="text/javascript"></script>
+   <!--<script src="http://maps.googleapis.com/maps/api/js?sensor=true" type="text/javascript"></script>-->
+<!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwwBXtskrkzqs4uS2tI0bLWYa-cNEeUCE"> </script>-->
+   <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places"></script>
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href= "https://google-developers.appspot.com/maps/documentation/javascript/examples/default.css"/>
-  <link rel="stylesheet" href="css/map.css"/>
+  <link rel="stylesheet" href="css/build/main.css"/>
 
 
 
@@ -27,18 +29,40 @@
     <p>Naar Aalsmeer </p>
 
   </div>
-  <h1>Horeca Aalsmeer</h1>
 
-  <div id="menu">
-    <p class="show_menu"> Ik zoek.... </p> 
 
-    <div class="categorie closed" id="categorie">
-      <div class="selectie_button bar" value="bar">bar</div>
-      <div class="selectie_button restaurant" value="restaurant">restaurant</div>
-      <div class="selectie_button club" value="club">club</div>
-      <div class="selectie_button alles" value="alles">alles</div>
-      </div>  
-  </div> 
+<div class="menu">
+    <div id="menu"> Ik zoek....
+        <select id="gmap_type" onchange="routeApp.clickOptions.filterMarkers()">
+           <option value="food">food</option>
+	       <option value="bar">bar</option>
+            <option value="cafe">cafe</option>
+            
+    </select>
+    
+    </div> 
+ 
+</div>
+
+   
+
+</div>
+    
+
+
+</section>
+<section class="addMarker">
+        <div class="button" id="toevoegen_button">
+            Plaats toevoegen
+        </div>
+    <label>titel:</label>
+    <input id="input_description"></input>
+    <label>soort</label>
+    <select id="soort_plaats">
+            <option value="bar">bar</option>
+            <option value="food">restaurant</option>
+            <option value="cafe">club</option>       
+    </select>
 </section>
 
 
@@ -56,9 +80,14 @@
 
   </section>
 
+
 <script src="js/app/controller.js"> </script>
+<script src="js/app/places.js"></script>
+<script src="js/app/localStorage.js"></script>
 <script src="js/app/model.js"> </script>
-<script src="js/app/view.js"> </script> 
+<script src="js/app/view.js"> </script>
+
+<!--<script src="js/build/output.min.js"></script>-->
 
 
 

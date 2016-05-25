@@ -23,7 +23,7 @@ routeApp.horeca = [
       lat: 52.259621,
       longi: 4.756068,
       z:5,
-      typeHoreca: "restaurant",
+      typeHoreca: "food",
       description:" Welkom Thuis, de naam zegt het al: het gevoel van thuiskomen en toch in de watten worden gelegd. Goed eten voor een fatsoenlijke prijs en een warme sfeer. Dat is de filosofie van eigenaar Mark Bergsma.",
       website: "http://www.welkomthuisaalsmeer.nl/",
       img: 'images/welkom_thuis.png'
@@ -35,8 +35,8 @@ routeApp.horeca = [
       lat: 52.268341,
       longi: 4.751108,
       z:3,
-      typeHoreca: "club",
-      description:"Crown, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer eget quam erat. Vestibulum velit ante, dictum in nisl et, commodo pretium arcu. Proin condimentum pulvinar feugiat. Curabitur auctor justo tincidunt cursus fringilla. Ut augue diam, blandit non pellentesque et, mattis consectetur enim",
+      typeHoreca: "cafe",
+      description:"Crown, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer eget quam erat. Vestibulum velit ante, dictum",
       website:"http://www.crowntheateraalsmeer.nl/",
       img: 'images/shadow.png'
     },
@@ -54,9 +54,9 @@ routeApp.horeca = [
       lat:52.26870,
       longi:4.74877,
       z:5,
-      typeHoreca: "restaurant",
+      typeHoreca: "food",
       description:"Pasta Vino",
-      img: 'images/pastavino.png'  
+      img: 'images/shadow.png'  
     }
 ];
 
